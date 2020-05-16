@@ -1,7 +1,8 @@
-package com.example.hsdeckmaker
+package com.example.hsdeckmaker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.hsdeckmaker.R
 
 class MainActivity : AppCompatActivity() {
 
