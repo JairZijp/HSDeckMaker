@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.card_item.view.*
 import java.net.URL
 
 
-public class CardAdapter(private val places: List<Card>) :
+public class CardAdapter(private val cards: List<Card>) :
     RecyclerView.Adapter<CardAdapter.ViewHolder>()
     {
 
@@ -25,11 +25,11 @@ public class CardAdapter(private val places: List<Card>) :
         }
 
         override fun getItemCount(): Int {
-            return places.size
+            return cards.size
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bind(places[position])
+            holder.bind(cards[position])
         }
 
         inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

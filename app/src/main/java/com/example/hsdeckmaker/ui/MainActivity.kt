@@ -2,6 +2,7 @@ package com.example.hsdeckmaker.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
@@ -20,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     private val cards = arrayListOf<Card>()
     private val cardAdapter = CardAdapter(cards)
 
+    fun isViewModelInitialized() = ::viewModel.isInitialized
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         initViews()
         initViewModel()
+        if(isViewModelInitialized()) {
+            viewModel.getCards()
+        }
     }
 
     private fun initViews() {
@@ -41,10 +46,7 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
-
         rvCards.adapter = cardAdapter
-
-        viewModel.getCards()
     }
 
     private fun initViewModel() {

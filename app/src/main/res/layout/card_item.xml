@@ -6,7 +6,7 @@
 
     <ImageView
         android:id="@+id/ivCard"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/poster_width"
         android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

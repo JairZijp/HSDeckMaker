@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class CardsApi {
     companion object {
-        private const val baseUrl = "https://api.hearthstonejson.com/v1"
+        private const val baseUrl = "https://api.hearthstonejson.com/"
 
         /**
          * @return [CardsApiService] The service class off the retrofit client.
