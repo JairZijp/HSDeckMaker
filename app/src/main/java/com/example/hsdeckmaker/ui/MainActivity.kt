@@ -13,12 +13,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hsdeckmaker.R
 import com.example.hsdeckmaker.model.Card
 import com.example.hsdeckmaker.model.CardAdapter
+import com.example.hsdeckmaker.model.CardItem
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
-    private val cards = arrayListOf<Card>()
+    private val cards = Card()
     private val cardAdapter = CardAdapter(cards)
 
     fun isViewModelInitialized() = ::viewModel.isInitialized
@@ -53,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
         viewModel.cardsPage.observe(this, Observer {
             cards.clear()
-            cards.addAll(it.cards)
+            cards.addAll(it)
             cardAdapter.notifyDataSetChanged()
         })
 
