@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        val gridLayoutManager = GridLayoutManager(this, 1, RecyclerView.VERTICAL, false)
+        val gridLayoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
         rvCards.layoutManager = gridLayoutManager
 
         // Add Global Layout Listener to calculate the span count.

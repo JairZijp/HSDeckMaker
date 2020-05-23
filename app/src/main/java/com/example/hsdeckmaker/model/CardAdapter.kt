@@ -32,7 +32,7 @@ class CardAdapter(private val cards: List<CardItem>
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(card: CardItem, i: Int) {
-            Glide.with(context).load("https://art.hearthstonejson.com/v1/render/latest/enUS/256x/" + card.id).into(itemView.ivCard)
+            Glide.with(context).load(card.getCardImage()).into(itemView.ivCard)
             itemView.tvCard.text = card.name
         }
     }

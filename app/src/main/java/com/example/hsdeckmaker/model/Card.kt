@@ -43,7 +43,9 @@ data class CardItem(
     val targetingArrowText: String,
     val text: String,
     val type: String
-) : Parcelable
+) : Parcelable {
+    fun getCardImage() = "https://art.hearthstonejson.com/v1/render/latest/enUS/512x/$id.png"
+}
 
 @SuppressLint("ParcelCreator")
 @Parcelize
