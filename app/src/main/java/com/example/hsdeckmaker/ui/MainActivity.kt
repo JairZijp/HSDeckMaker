@@ -1,32 +1,36 @@
 package com.example.hsdeckmaker.ui
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hsdeckmaker.R
-import com.example.hsdeckmaker.model.Card
 import com.example.hsdeckmaker.model.CardAdapter
 import com.example.hsdeckmaker.model.CardItem
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+const val EXTRA_CARD = "EXTRA_CARD"
+
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainActivityViewModel
-    private val cards = Card()
-    private val cardAdapter = CardAdapter(cards)
+    private val cards = ArrayList<CardItem>()
+    private val cardAdapter = CardAdapter(cards) {card -> onCardClick(card) }
 
-    fun isViewModelInitialized() = ::viewModel.isInitialized
+    private fun isViewModelInitialized() = ::viewModel.isInitialized
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        this.setTitle("All Cards");
 
         initViews()
         initViewModel()
@@ -39,7 +43,6 @@ class MainActivity : AppCompatActivity() {
         val gridLayoutManager = GridLayoutManager(this, 2, RecyclerView.VERTICAL, false)
         rvCards.layoutManager = gridLayoutManager
 
-        // Add Global Layout Listener to calculate the span count.
         rvCards.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
                 rvCards.viewTreeObserver.removeOnGlobalLayoutListener(this)
@@ -62,4 +65,17 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, it, Toast.LENGTH_LONG).show()
         })
     }
+
+    private fun onCardClick(card: CardItem) {
+
+        val intent = Intent(this, CardSingleActivity::class.java)
+        Log.d("intent_log", card.toString())
+        val bundle = Bundle()
+        bundle.putParcelable("selected_card", card)
+        intent.putExtra(EXTRA_CARD, bundle)
+
+
+        startActivityForResult(intent, 100)
+    }
+
 }

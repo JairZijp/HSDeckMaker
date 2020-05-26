@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HSDeckMaker</string>
+    <string name="home_text">All Cards</string>
 </resources>

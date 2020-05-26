@@ -10,7 +10,8 @@ import com.example.hsdeckmaker.R
 import kotlinx.android.synthetic.main.card_item.view.*
 
 
-class CardAdapter(private val cards: List<CardItem>
+class CardAdapter(private val cards: List<CardItem>,
+                  private val onClick: (CardItem) -> Unit
 ) : RecyclerView.Adapter<CardAdapter.ViewHolder>() {
 
     private lateinit var context: Context
@@ -31,6 +32,12 @@ class CardAdapter(private val cards: List<CardItem>
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        init {
+            itemView.setOnClickListener {
+                onClick(cards[adapterPosition])
+            }
+        }
+
         fun bind(card: CardItem, i: Int) {
             Glide.with(context).load(card.getCardImage()).into(itemView.ivCard)
             itemView.tvCard.text = card.name

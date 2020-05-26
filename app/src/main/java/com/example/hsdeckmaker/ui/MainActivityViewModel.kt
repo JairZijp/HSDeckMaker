@@ -31,13 +31,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
                     cardsPage.value = response.body()
                 }
                 else error.value = "An error occurred: ${response.errorBody().toString()}"
-                Log.d("M8?", cardsPage.value.toString())
-                progressBarStatus.value = false
             }
 
             override fun onFailure(call: Call<Card>, t: Throwable) {
                 error.value = t.message
-                progressBarStatus.value = false
             }
         })
 
