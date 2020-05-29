@@ -1,5 +1,6 @@
 package com.example.hsdeckmaker.ui
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,9 +16,7 @@ import com.example.hsdeckmaker.model.CardAdapter
 import com.example.hsdeckmaker.model.CardItem
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 const val EXTRA_CARD = "EXTRA_CARD"
-
 
 class MainActivity : AppCompatActivity() {
 
@@ -67,15 +66,25 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onCardClick(card: CardItem) {
-
         val intent = Intent(this, CardSingleActivity::class.java)
         Log.d("intent_log", card.toString())
         val bundle = Bundle()
         bundle.putParcelable("selected_card", card)
         intent.putExtra(EXTRA_CARD, bundle)
 
-
         startActivityForResult(intent, 100)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK) {
+            when (requestCode) {
+                100 -> {
+                    val card = data!!.getParcelableExtra<CardItem>(EXTRA_CARD)
+                    viewModel.insertCard(card)
+                    Toast.makeText(applicationContext, "Card added to deck!", Toast.LENGTH_SHORT).show()
+                }
+                else -> super.onActivityResult(requestCode, resultCode, data)
+            }
+        }
+    }
 }

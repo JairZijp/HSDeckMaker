@@ -5,7 +5,12 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.hsdeckmaker.api.CardsRepository
+import com.example.hsdeckmaker.database.CardRepository
 import com.example.hsdeckmaker.model.Card
+import com.example.hsdeckmaker.model.CardItem
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,6 +21,9 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     val cardsPage = MutableLiveData<Card>()
     val error = MutableLiveData<String>()
     val progressBarStatus = MutableLiveData<Boolean>(false)
+
+    private val cardRepository = CardRepository(application.applicationContext)
+    private val ioScope = CoroutineScope(Dispatchers.IO)
 
     fun getCards() {
 
@@ -40,6 +48,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
-
+    fun insertCard(card: CardItem) {
+        ioScope.launch {
+            cardRepository.insertCard(card)
+        }
+    }
 
 }
