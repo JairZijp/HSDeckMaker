@@ -9,17 +9,18 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hsdeckmaker.R
+import com.example.hsdeckmaker.model.Card
 import kotlinx.android.synthetic.main.fragment_all_cards.view.*
 import com.example.hsdeckmaker.model.CardAdapter
 import com.example.hsdeckmaker.model.CardItem
-import com.example.hsdeckmaker.ui.CardSingleActivity
-import com.example.hsdeckmaker.ui.EXTRA_CARD
-import com.example.hsdeckmaker.ui.MainActivityViewModel
+import com.example.hsdeckmaker.ui.*
 import kotlinx.android.synthetic.main.fragment_all_cards.view.*
 
 class AllCardsFragment : Fragment() {
@@ -28,6 +29,7 @@ class AllCardsFragment : Fragment() {
     private val cards = ArrayList<CardItem>()
     private val cardAdapter = CardAdapter(cards) {card -> onCardClick(card) }
     private lateinit var viewOfLayout: View
+    private var cardModel: CardSingleViewModel?=null
 
     companion object {
         fun newInstance(): Fragment {
@@ -48,7 +50,6 @@ class AllCardsFragment : Fragment() {
         })
 
         viewOfLayout.rvCards.adapter = cardAdapter
-
         return viewOfLayout;
     }
 
@@ -76,12 +77,16 @@ class AllCardsFragment : Fragment() {
     }
 
     private fun onCardClick(card: CardItem) {
-        val intent = Intent(getActivity(), CardSingleActivity::class.java)
-        Log.d("intent_log", card.toString())
-        val bundle = Bundle()
-        bundle.putParcelable("selected_card", card)
-        intent.putExtra(EXTRA_CARD, bundle)
+        Log.d("onCardC;ocl", card.toString())
+        cardModel = ViewModelProviders.of(activity!!).get(CardSingleViewModel::class.java)
+        cardModel!!.setCard(card)
 
-        startActivityForResult(intent, 100)
+        val myfragment = CardFragment()
+        val fragmentTransaction = fragmentManager!!.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, myfragment)
+        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commit()
     }
+
 }
