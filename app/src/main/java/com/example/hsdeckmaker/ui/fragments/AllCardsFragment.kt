@@ -41,6 +41,7 @@ class AllCardsFragment : Fragment() {
         viewOfLayout = inflater!!.inflate(R.layout.fragment_all_cards, container, false)
         val gridLayoutManager = GridLayoutManager(activity, 2, RecyclerView.VERTICAL, false)
         viewOfLayout.rvCards.layoutManager = gridLayoutManager
+        getActivity()?.setTitle(getString(R.string.home_text));
 
         viewOfLayout.rvCards.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -77,10 +78,13 @@ class AllCardsFragment : Fragment() {
     }
 
     private fun onCardClick(card: CardItem) {
-        Log.d("onCardC;ocl", card.toString())
         cardModel = ViewModelProviders.of(activity!!).get(CardSingleViewModel::class.java)
         cardModel!!.setCard(card)
 
+        // TODO: create global method for this
+        // findNavController is not working for some reason, seems to be a problem with gradle version:
+        // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
+        // Alternative:
         val myfragment = CardFragment()
         val fragmentTransaction = fragmentManager!!.beginTransaction()
         fragmentTransaction.replace(R.id.frameLayout, myfragment)

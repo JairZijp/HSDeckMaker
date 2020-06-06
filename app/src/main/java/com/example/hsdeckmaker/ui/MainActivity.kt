@@ -20,6 +20,7 @@ import com.example.hsdeckmaker.model.CardAdapter
 import com.example.hsdeckmaker.model.CardItem
 import com.example.hsdeckmaker.ui.fragments.AllCardsFragment
 import com.example.hsdeckmaker.ui.fragments.DeckFragment
+import com.example.hsdeckmaker.ui.fragments.NewDeckFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import com.google.android.material.navigation.NavigationView;
 import kotlinx.android.synthetic.main.navigationview_header.view.*
@@ -67,6 +68,12 @@ class MainActivity : AppCompatActivity() {
                     toolbar.title = getString(R.string.my_deck)
                     navigationPosition = R.id.my_deck
                     navigateToFragment(DeckFragment.newInstance())
+                }
+
+                R.id.new_deck -> {
+                    toolbar.title = getString(R.string.my_deck)
+                    navigationPosition = R.id.new_deck
+                    navigateToFragment(NewDeckFragment.newInstance())
                 }
             }
             // set item as selected to persist highlight

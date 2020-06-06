@@ -11,12 +11,11 @@ import kotlinx.android.parcel.Parcelize
 class Card : ArrayList<CardItem>()
 
 @Parcelize
-@Entity(tableName = "cards")
+@Entity(tableName = "cards", primaryKeys = ["id", "deck_id"])
 data class CardItem(
 
     @ColumnInfo(name = "id")
     @SerializedName("id")
-    @PrimaryKey(autoGenerate = false)
     val id: String,
 
     @SerializedName("name")
@@ -25,7 +24,11 @@ data class CardItem(
 
     @SerializedName("text")
     @ColumnInfo(name = "text")
-    val text: String
+    val text: String,
+
+    @SerializedName("deck_id")
+    @ColumnInfo(name = "deck_id")
+    val deck_id: Int
 
 ) : Parcelable {
     fun getCardImage() = "https://art.hearthstonejson.com/v1/render/latest/enUS/512x/$id.png"

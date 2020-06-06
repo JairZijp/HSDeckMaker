@@ -5,8 +5,9 @@ import androidx.room.Database
 import android.content.Context
 import androidx.room.RoomDatabase
 import com.example.hsdeckmaker.model.CardItem
+import com.example.hsdeckmaker.model.Deck
 
-@Database(entities = [CardItem::class], version = 1, exportSchema = false)
+@Database(entities = [Deck::class, CardItem::class], version = 2, exportSchema = true)
 abstract class CardDatabase : RoomDatabase() {
     abstract fun cardDao(): CardDao
 
@@ -17,6 +18,7 @@ abstract class CardDatabase : RoomDatabase() {
         private var INSTANCE: CardDatabase? = null
 
         fun getDatabase(context: Context) : CardDatabase? {
+           // context.deleteDatabase("CARDS_DATABASE")
             if (INSTANCE == null) {
                 synchronized(CardDatabase::class.java) {
                     if (INSTANCE == null) {
