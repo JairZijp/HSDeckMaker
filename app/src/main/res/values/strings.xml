@@ -4,4 +4,8 @@
     <string name="my_deck">My Deck</string>
     <string name="drawerOpen">Open</string>
     <string name="drawerClose">Close</string>
+    <string name="new_deck">Add New Deck</string>
+    <string name="deck_name">Deck name</string>
+    <string name="add_new_deck">Add a new deck here</string>
+
 </resources>

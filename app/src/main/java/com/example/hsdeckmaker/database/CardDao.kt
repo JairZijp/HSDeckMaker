@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.lifecycle.LiveData
 import com.example.hsdeckmaker.model.CardItem
+import com.example.hsdeckmaker.model.Deck
 
 @Dao
 interface CardDao {
@@ -17,4 +18,10 @@ interface CardDao {
 
     @Insert
     suspend fun insertCard(card: CardItem)
+
+    @Insert
+    suspend fun insertDeck(deck: Deck)
+
+    @Query("SELECT * FROM cards where deck_id = :deckId")
+    fun getCardsFromDeck(deckId: String): LiveData<List<CardItem>>
 }

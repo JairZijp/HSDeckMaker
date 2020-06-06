@@ -58,13 +58,9 @@ class CardFragment : Fragment(), IOnBackPressed {
                     btn.text = "Add to deck"
                     btn.setOnClickListener {
                         Log.d("db add fragment", o.name)
-                        val card = CardItem(o.id, o.name, o.text)
+                        val card = CardItem(o.id, o.name, o.text, 1)
                         viewModel.insertCard(card)
                         Toast.makeText(activity, "Card added to deck!", Toast.LENGTH_SHORT).show()
-//                        val resultIntent = Intent()
-//                        resultIntent.putExtra(EXTRA_CARD, card)
-//                        activity?.setResult(Activity.RESULT_OK, resultIntent)
-//                        activity?.finish()
                     }
                 } else {
                     btn.text = "Remove from deck"
@@ -75,10 +71,10 @@ class CardFragment : Fragment(), IOnBackPressed {
 
     // Check if card is already in deck
     fun isCardInDeck(id: String) : Boolean {
-        val cardt : CardItem? = cardRepository?.findById(id)
-        Log.d("isCardInDeck", cardt.toString())
+        val card_ : CardItem? = cardRepository?.findById(id)
+        Log.d("isCardInDeck", card_.toString())
 
-        if (cardt == null) {
+        if (card_ == null) {
             return true
         }
         return false
