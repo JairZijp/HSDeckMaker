@@ -3,8 +3,6 @@ package com.example.hsdeckmaker.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.view.Gravity
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -13,17 +11,14 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.hsdeckmaker.R
-import com.example.hsdeckmaker.model.CardAdapter
 import com.example.hsdeckmaker.model.CardItem
 import com.example.hsdeckmaker.ui.fragments.AllCardsFragment
 import com.example.hsdeckmaker.ui.fragments.DeckFragment
 import com.example.hsdeckmaker.ui.fragments.NewDeckFragment
 import kotlinx.android.synthetic.main.activity_main.*
-import com.google.android.material.navigation.NavigationView;
-import kotlinx.android.synthetic.main.navigationview_header.view.*
+
 
 const val EXTRA_CARD = "EXTRA_CARD"
 
@@ -46,15 +41,23 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
 
+        val deckModel = ViewModelProvider(this).get(DeckViewModel::class.java)
         val toolbar = findViewById<View>(R.id.toolbar) as Toolbar
+        val menu = navigationView.menu
         setSupportActionBar(toolbar)
         setUpDrawerLayout()
 
         //Load All cards fragment first
         navigationPosition = R.id.all_cards
         navigateToFragment(AllCardsFragment.newInstance())
+
         navigationView.setCheckedItem(navigationPosition)
         toolbar.title = getString(R.string.home_text)
+
+        // Add decks to menu
+        for (i in 0 until deckModel.getDecks().size) {
+            menu.add(R.id.grp2, deckModel.getDecks()[i].id!!, 0, deckModel.getDecks()[i].name);
+        }
 
         // Navigation items
         navigationView.setNavigationItemSelectedListener { menuItem ->

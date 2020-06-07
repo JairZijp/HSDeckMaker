@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:id="@+id/grp1" android:checkableBehavior="single">
         <item android:id="@+id/all_cards"
             android:title="All Cards"/>
         <item android:id="@+id/my_deck"
             android:title="My Deck"/>
         <item android:id="@+id/new_deck"
             android:title="Add New Deck"/>
+    </group>
+
+    <group android:id="@+id/grp2" android:checkableBehavior="single">
+
     </group>
 </menu>
