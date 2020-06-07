@@ -22,4 +22,8 @@ class DeckViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun getDecks(): List<Deck> {
+        return cardsRepository.getDecks()
+    }
+
 }

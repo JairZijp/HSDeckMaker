@@ -21,8 +21,12 @@ class CardRepository(context: Context) {
         return cardDao.getCards()
     }
 
-    fun getCardsFromDeck(deck_id: String): LiveData<List<CardItem>> {
+    fun getCardsFromDeck(deck_id: String): List<Deck> {
         return cardDao.getCardsFromDeck(deck_id)
+    }
+
+    fun getDecks(): List<Deck> {
+        return cardDao.getDecks()
     }
 
     suspend fun insertCard(card: CardItem) {

@@ -1,14 +1,16 @@
 package com.example.hsdeckmaker.ui.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +18,10 @@ import com.bumptech.glide.Glide
 import com.example.hsdeckmaker.R
 import com.example.hsdeckmaker.database.CardRepository
 import com.example.hsdeckmaker.model.CardItem
-import com.example.hsdeckmaker.ui.*
+import com.example.hsdeckmaker.ui.CardSingleViewModel
+import com.example.hsdeckmaker.ui.DeckViewModel
+import com.example.hsdeckmaker.ui.IOnBackPressed
+import com.example.hsdeckmaker.ui.MainActivityViewModel
 import kotlinx.android.synthetic.main.fragment_single_cart.view.*
 
 
@@ -39,6 +44,25 @@ class CardFragment : Fragment(), IOnBackPressed {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewOfLayout = inflater!!.inflate(R.layout.fragment_single_cart, container, false)
+
+        val linearLayout = viewOfLayout.findViewById(R.id.linearLayout) as LinearLayout
+        val deckModel = ViewModelProvider(this).get(DeckViewModel::class.java)
+
+        //Log.d("Deck log: ", .toString())
+
+        for (i in 0 until deckModel.getDecks().size) {
+            val cb = CheckBox(activity)
+            cb.text = deckModel.getDecks()[i].name
+            cb.setPadding(10, 10, 10, 10);
+            val params = LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+            params.setMargins(5, 5, 5, 5)
+            cb.setLayoutParams(params);
+            linearLayout.addView(cb)
+        }
+
         return viewOfLayout
     }
 
@@ -61,6 +85,17 @@ class CardFragment : Fragment(), IOnBackPressed {
                         val card = CardItem(o.id, o.name, o.text, 1)
                         viewModel.insertCard(card)
                         Toast.makeText(activity, "Card added to deck!", Toast.LENGTH_SHORT).show()
+
+                        // TODO: create global method for this
+                        // findNavController is not working for some reason, seems to be a problem with gradle version:
+                        // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
+                        // Alternative:
+                        val myfragment = AllCardsFragment()
+                        val fragmentTransaction = fragmentManager!!.beginTransaction()
+                        fragmentTransaction.replace(R.id.frameLayout, myfragment)
+                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        fragmentTransaction.addToBackStack(null)
+                        fragmentTransaction.commit()
                     }
                 } else {
                     btn.text = "Remove from deck"

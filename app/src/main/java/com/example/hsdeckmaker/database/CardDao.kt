@@ -23,5 +23,8 @@ interface CardDao {
     suspend fun insertDeck(deck: Deck)
 
     @Query("SELECT * FROM cards where deck_id = :deckId")
-    fun getCardsFromDeck(deckId: String): LiveData<List<CardItem>>
+    fun getCardsFromDeck(deckId: String): List<Deck>
+
+    @Query("SELECT * FROM decks")
+    fun getDecks(): List<Deck>
 }
