@@ -108,10 +108,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
-            Log.d("jazeker", requestCode.toString())
             when (requestCode) {
                 100 -> {
-                    Log.d("jazeker", "Hier niet meer denk")
                     val card = data!!.getParcelableExtra<CardItem>(EXTRA_CARD)
                     viewModel.insertCard(card)
                     Toast.makeText(applicationContext, "Card added to deck!", Toast.LENGTH_SHORT).show()

@@ -1,6 +1,7 @@
 package com.example.hsdeckmaker.ui
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.example.hsdeckmaker.database.CardRepository
@@ -21,6 +22,17 @@ class CardSingleViewModel(application: Application) : AndroidViewModel(applicati
 
     fun getCardsFromDeck(deck_id: Int): List<Deck> {
         return cardRepository.getCardsFromDeck(deck_id);
+    }
+
+    // Check if card is already in deck
+    fun isCardInDeck(card_id: String, deck_id: Int?) : Boolean {
+        val check = cardRepository.isCardInDeck(card_id, deck_id!!)
+        Log.d("isCardInDeck : ", check.toString())
+
+        if (check == 1) {
+            return true
+        }
+        return false
     }
 
 }

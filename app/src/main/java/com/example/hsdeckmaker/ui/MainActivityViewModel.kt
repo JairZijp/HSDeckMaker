@@ -54,4 +54,10 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
         }
     }
 
+    fun removeCard(card: CardItem) {
+        ioScope.launch {
+            cardRepository.removeCard(card)
+        }
+    }
+
 }

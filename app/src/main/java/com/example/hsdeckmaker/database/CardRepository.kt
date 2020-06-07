@@ -31,7 +31,15 @@ class CardRepository(context: Context) {
     }
 
     suspend fun insertCard(card: CardItem) {
-        return cardDao.insertCard(card)
+        if(isCardInDeck(card.id, card.deck_id) == 0) {
+            return cardDao.insertCard(card)
+        }
+    }
+
+    suspend fun removeCard(card: CardItem) {
+        if(isCardInDeck(card.id, card.deck_id) == 1) {
+            return cardDao.removeCard(card)
+        }
     }
 
     suspend fun insertDeck(deck: Deck) {
@@ -39,9 +47,6 @@ class CardRepository(context: Context) {
     }
 
     fun isCardInDeck(card_id: String, deck_id: Int): Int {
-        Log.d("cardid", card_id)
-        Log.d("deckid", deck_id.toString())
-
         return cardDao.findCardInDeck(card_id, deck_id)
     }
 

@@ -19,6 +19,9 @@ interface CardDao {
     @Insert
     suspend fun insertCard(card: CardItem)
 
+    @Delete
+    suspend fun removeCard(card: CardItem)
+
     @Insert
     suspend fun insertDeck(deck: Deck)
 
@@ -28,6 +31,6 @@ interface CardDao {
     @Query("SELECT * FROM decks")
     fun getDecks(): List<Deck>
 
-    @Query("SELECT * FROM cards WHERE id = :cardId AND deck_id = :deckId")
+    @Query("SELECT COUNT(*) FROM cards WHERE id = :cardId AND deck_id = :deckId")
     fun findCardInDeck(cardId: String, deckId: Int): Int
 }

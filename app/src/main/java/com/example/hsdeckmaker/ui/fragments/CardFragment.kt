@@ -78,7 +78,7 @@ class CardFragment : Fragment(), IOnBackPressed {
 
                 // Check the checkbox if the card is in that deck
                 for (i in 0 until deckModel.getDecks().size) {
-                    if(isCardInDeck(o.id, deckModel.getDecks()[i].id)) {
+                    if(cardModel.isCardInDeck(o.id, deckModel.getDecks()[i].id)) {
                         viewOfLayout.findViewById<CheckBox>(deckModel.getDecks()[i].id!!).isChecked = true
                     }
                 }
@@ -93,6 +93,9 @@ class CardFragment : Fragment(), IOnBackPressed {
                         if(viewOfLayout.findViewById<CheckBox>(deckModel.getDecks()[i].id!!).isChecked) {
                             val card = CardItem(o.id, o.name, o.text, deckModel.getDecks()[i].id!!)
                             viewModel.insertCard(card)
+                        } else {
+                            val card = CardItem(o.id, o.name, o.text, deckModel.getDecks()[i].id!!)
+                            viewModel.removeCard(card)
                         }
                     }
 
@@ -111,17 +114,6 @@ class CardFragment : Fragment(), IOnBackPressed {
                 }
             }
         })
-    }
-
-    // Check if card is already in deck
-    fun isCardInDeck(card_id: String, deck_id: Int?) : Boolean {
-        val check = cardRepository?.isCardInDeck(card_id, deck_id!!)
-        Log.d("isCardInDeck : ", check.toString())
-
-        if (check == 1) {
-            return true
-        }
-        return false
     }
 
     override fun onBackPressed(): Boolean {
