@@ -1,6 +1,7 @@
 package com.example.hsdeckmaker.database
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.hsdeckmaker.model.CardItem
 import com.example.hsdeckmaker.model.Deck
@@ -21,7 +22,7 @@ class CardRepository(context: Context) {
         return cardDao.getCards()
     }
 
-    fun getCardsFromDeck(deck_id: String): List<Deck> {
+    fun getCardsFromDeck(deck_id: Int): List<Deck> {
         return cardDao.getCardsFromDeck(deck_id)
     }
 
@@ -37,5 +38,11 @@ class CardRepository(context: Context) {
         return cardDao.insertDeck(deck)
     }
 
+    fun isCardInDeck(card_id: String, deck_id: Int): Int {
+        Log.d("cardid", card_id)
+        Log.d("deckid", deck_id.toString())
+
+        return cardDao.findCardInDeck(card_id, deck_id)
+    }
 
 }

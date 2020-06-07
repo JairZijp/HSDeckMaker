@@ -13,7 +13,7 @@ interface CardDao {
     @Query("SELECT * FROM cards")
     fun getCards(): LiveData<List<CardItem>>
 
-    @Query("SELECT * FROM cards where id = :id")
+    @Query("SELECT * FROM cards WHERE id = :id")
     fun findById(id: String): CardItem
 
     @Insert
@@ -22,9 +22,12 @@ interface CardDao {
     @Insert
     suspend fun insertDeck(deck: Deck)
 
-    @Query("SELECT * FROM cards where deck_id = :deckId")
-    fun getCardsFromDeck(deckId: String): List<Deck>
+    @Query("SELECT * FROM cards WHERE deck_id = :deckId")
+    fun getCardsFromDeck(deckId: Int): List<Deck>
 
     @Query("SELECT * FROM decks")
     fun getDecks(): List<Deck>
+
+    @Query("SELECT * FROM cards WHERE id = :cardId AND deck_id = :deckId")
+    fun findCardInDeck(cardId: String, deckId: Int): Int
 }

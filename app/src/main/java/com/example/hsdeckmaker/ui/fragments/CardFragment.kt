@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.LinearLayout
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
@@ -44,11 +43,8 @@ class CardFragment : Fragment(), IOnBackPressed {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewOfLayout = inflater!!.inflate(R.layout.fragment_single_cart, container, false)
-
         val linearLayout = viewOfLayout.findViewById(R.id.linearLayout) as LinearLayout
         val deckModel = ViewModelProvider(this).get(DeckViewModel::class.java)
-
-        //Log.d("Deck log: ", .toString())
 
         for (i in 0 until deckModel.getDecks().size) {
             val cb = CheckBox(activity)
@@ -60,6 +56,7 @@ class CardFragment : Fragment(), IOnBackPressed {
             )
             params.setMargins(5, 5, 5, 5)
             cb.setLayoutParams(params);
+            cb.id = deckModel.getDecks()[i].id!!
             linearLayout.addView(cb)
         }
 
@@ -71,6 +68,7 @@ class CardFragment : Fragment(), IOnBackPressed {
         val btn = viewOfLayout.button;
         val cardModel = ViewModelProviders.of(activity!!).get(CardSingleViewModel::class.java)
         val viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+        val deckModel = ViewModelProvider(this).get(DeckViewModel::class.java)
 
         cardModel.cardItem.observe(viewLifecycleOwner, object : Observer<CardItem> {
             override fun onChanged(o: CardItem?) {
@@ -78,38 +76,49 @@ class CardFragment : Fragment(), IOnBackPressed {
                 view.description.text = o!!.text
                 getActivity()?.let { Glide.with(it).load(o.getCardImage()).into(view.ivPoster) }
 
-                if (isCardInDeck(o.id)) {
-                    btn.text = "Add to deck"
-                    btn.setOnClickListener {
-                        Log.d("db add fragment", o.name)
-                        val card = CardItem(o.id, o.name, o.text, 1)
-                        viewModel.insertCard(card)
-                        Toast.makeText(activity, "Card added to deck!", Toast.LENGTH_SHORT).show()
-
-                        // TODO: create global method for this
-                        // findNavController is not working for some reason, seems to be a problem with gradle version:
-                        // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
-                        // Alternative:
-                        val myfragment = AllCardsFragment()
-                        val fragmentTransaction = fragmentManager!!.beginTransaction()
-                        fragmentTransaction.replace(R.id.frameLayout, myfragment)
-                        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                        fragmentTransaction.addToBackStack(null)
-                        fragmentTransaction.commit()
+                // Check the checkbox if the card is in that deck
+                for (i in 0 until deckModel.getDecks().size) {
+                    if(isCardInDeck(o.id, deckModel.getDecks()[i].id)) {
+                        viewOfLayout.findViewById<CheckBox>(deckModel.getDecks()[i].id!!).isChecked = true
                     }
-                } else {
-                    btn.text = "Remove from deck"
+                }
+
+                btn.text = getString(R.string.save)
+                btn.setOnClickListener {
+                    Log.d("db add fragment", o.name)
+
+                    for (i in 0 until deckModel.getDecks().size) {
+
+                        // Check which deck checkboxes are checked, save the cards in the checked decks
+                        if(viewOfLayout.findViewById<CheckBox>(deckModel.getDecks()[i].id!!).isChecked) {
+                            val card = CardItem(o.id, o.name, o.text, deckModel.getDecks()[i].id!!)
+                            viewModel.insertCard(card)
+                        }
+                    }
+
+                    Toast.makeText(activity, getString(R.string.save_text), Toast.LENGTH_SHORT).show()
+
+                    // TODO: create global method for this
+                    // findNavController is not working for some reason, seems to be a problem with gradle version:
+                    // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
+                    // Alternative:
+                    val myfragment = AllCardsFragment()
+                    val fragmentTransaction = fragmentManager!!.beginTransaction()
+                    fragmentTransaction.replace(R.id.frameLayout, myfragment)
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    fragmentTransaction.addToBackStack(null)
+                    fragmentTransaction.commit()
                 }
             }
         })
     }
 
     // Check if card is already in deck
-    fun isCardInDeck(id: String) : Boolean {
-        val card_ : CardItem? = cardRepository?.findById(id)
-        Log.d("isCardInDeck", card_.toString())
+    fun isCardInDeck(card_id: String, deck_id: Int?) : Boolean {
+        val check = cardRepository?.isCardInDeck(card_id, deck_id!!)
+        Log.d("isCardInDeck : ", check.toString())
 
-        if (card_ == null) {
+        if (check == 1) {
             return true
         }
         return false

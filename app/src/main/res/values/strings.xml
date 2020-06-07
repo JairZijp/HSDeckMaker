@@ -9,4 +9,5 @@
     <string name="add_new_deck">Add a new deck here</string>
     <string name="add_to_deck">Add this card to your deck(s)</string>
     <string name="save">Save</string>
+    <string name="save_text">Saved!</string>
 </resources>

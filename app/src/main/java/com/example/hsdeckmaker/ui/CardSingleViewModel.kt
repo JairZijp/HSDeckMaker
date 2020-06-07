@@ -19,7 +19,7 @@ class CardSingleViewModel(application: Application) : AndroidViewModel(applicati
 
     fun setCard(card:CardItem) = cardItem.setValue(card)
 
-    fun getCardsFromDeck(deck_id:String): List<Deck> {
+    fun getCardsFromDeck(deck_id: Int): List<Deck> {
         return cardRepository.getCardsFromDeck(deck_id);
     }
 
