@@ -20,14 +20,11 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private val cardsRepository = CardsRepository(application.applicationContext)
     val cardsPage = MutableLiveData<Card>()
     val error = MutableLiveData<String>()
-    val progressBarStatus = MutableLiveData<Boolean>(false)
 
     private val cardRepository = CardRepository(application.applicationContext)
     private val ioScope = CoroutineScope(Dispatchers.IO)
 
     fun getCards() {
-
-        progressBarStatus.value = true
         val call: Call<Card> = cardsRepository.getCards()
         call.enqueue(object : Callback<Card> {
             override fun onResponse(

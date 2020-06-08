@@ -14,15 +14,7 @@ class CardRepository(context: Context) {
         cardDao = database!!.cardDao()
     }
 
-    fun findById(id: String): CardItem {
-        return cardDao.findById(id)
-    }
-
-    fun getCards(): LiveData<List<CardItem>> {
-        return cardDao.getCards()
-    }
-
-    fun getCardsFromDeck(deck_id: Int): List<Deck> {
+    fun getCardsFromDeck(deck_id: Int): List<CardItem> {
         return cardDao.getCardsFromDeck(deck_id)
     }
 

@@ -20,14 +20,9 @@ class CardSingleViewModel(application: Application) : AndroidViewModel(applicati
 
     fun setCard(card:CardItem) = cardItem.setValue(card)
 
-    fun getCardsFromDeck(deck_id: Int): List<Deck> {
-        return cardRepository.getCardsFromDeck(deck_id);
-    }
-
     // Check if card is already in deck
     fun isCardInDeck(card_id: String, deck_id: Int?) : Boolean {
         val check = cardRepository.isCardInDeck(card_id, deck_id!!)
-        Log.d("isCardInDeck : ", check.toString())
 
         if (check == 1) {
             return true

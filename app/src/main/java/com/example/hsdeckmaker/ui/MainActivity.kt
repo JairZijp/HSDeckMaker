@@ -3,11 +3,13 @@ package com.example.hsdeckmaker.ui
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -61,22 +63,24 @@ class MainActivity : AppCompatActivity() {
 
         // Navigation items
         navigationView.setNavigationItemSelectedListener { menuItem ->
+
             when (menuItem.itemId) {
                 R.id.all_cards -> {
                     toolbar.title = getString(R.string.home_text)
                     navigationPosition = R.id.all_cards
                     navigateToFragment(AllCardsFragment.newInstance())
                 }
-                R.id.my_deck -> {
-                    toolbar.title = getString(R.string.my_deck)
-                    navigationPosition = R.id.my_deck
-                    navigateToFragment(DeckFragment.newInstance())
-                }
 
                 R.id.new_deck -> {
                     toolbar.title = getString(R.string.my_deck)
                     navigationPosition = R.id.new_deck
                     navigateToFragment(NewDeckFragment.newInstance())
+                }
+
+                else -> {
+                    toolbar.title = getString(R.string.my_deck) + " " + menuItem.title;
+                    navigationPosition = menuItem.itemId
+                    navigateToFragment(DeckFragment.newInstance(menuItem.title.toString(), menuItem.itemId))
                 }
             }
             // set item as selected to persist highlight
