@@ -1,14 +1,12 @@
 package com.example.hsdeckmaker.ui.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -21,7 +19,6 @@ import com.example.hsdeckmaker.replaceFragment
 import com.example.hsdeckmaker.ui.CardSingleViewModel
 import com.example.hsdeckmaker.ui.DeckViewModel
 import com.example.hsdeckmaker.ui.MainActivityViewModel
-import kotlinx.android.synthetic.main.fragment_all_cards.view.*
 import kotlinx.android.synthetic.main.fragment_deck.view.*
 
 class DeckFragment : Fragment() {

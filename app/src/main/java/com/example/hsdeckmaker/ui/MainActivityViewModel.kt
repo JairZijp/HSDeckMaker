@@ -20,7 +20,6 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     private val cardsRepository = CardsRepository(application.applicationContext)
     var cardsPage = MutableLiveData<Card>()
     val error = MutableLiveData<String>()
-    var searchQuery = MutableLiveData<String>()
 
     private val cardRepository = CardRepository(application.applicationContext)
     private val ioScope = CoroutineScope(Dispatchers.IO)

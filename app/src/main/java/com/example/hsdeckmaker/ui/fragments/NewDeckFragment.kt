@@ -7,7 +7,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.example.hsdeckmaker.R
 import com.example.hsdeckmaker.model.Deck
@@ -45,6 +44,7 @@ class NewDeckFragment : Fragment() {
             val deck = Deck(null, viewOfLayout.textDeck.text.toString())
             viewModel.insertDeck(deck)
             Toast.makeText(activity, "New deck: " + viewOfLayout.textDeck.text.toString() + " created", Toast.LENGTH_SHORT).show()
+            getActivity()?.recreate();
 
             fragmentManager?.replaceFragment(AllCardsFragment())
         }
