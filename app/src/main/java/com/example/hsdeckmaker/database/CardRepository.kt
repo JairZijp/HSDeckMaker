@@ -18,6 +18,10 @@ class CardRepository(context: Context) {
         return cardDao.getCardsFromDeck(deck_id)
     }
 
+    fun getCardsSearch(query: String): List<CardItem> {
+        return cardDao.getCardsSearch(query)
+    }
+
     fun getDecks(): List<Deck> {
         return cardDao.getDecks()
     }

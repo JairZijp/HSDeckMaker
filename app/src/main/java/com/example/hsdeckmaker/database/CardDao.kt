@@ -28,6 +28,9 @@ interface CardDao {
     @Query("SELECT * FROM cards WHERE deck_id = :deckId")
     fun getCardsFromDeck(deckId: Int): List<CardItem>
 
+    @Query("SELECT * FROM cards WHERE name LIKE :query+'%'")
+    fun getCardsSearch(query: String): List<CardItem>
+
     @Query("SELECT * FROM decks")
     fun getDecks(): List<Deck>
 
