@@ -11,6 +11,7 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.example.hsdeckmaker.R
 import com.example.hsdeckmaker.model.Deck
+import com.example.hsdeckmaker.replaceFragment
 import com.example.hsdeckmaker.ui.DeckViewModel
 import kotlinx.android.synthetic.main.fragment_new_deck.view.*
 
@@ -45,16 +46,7 @@ class NewDeckFragment : Fragment() {
             viewModel.insertDeck(deck)
             Toast.makeText(activity, "New deck: " + viewOfLayout.textDeck.text.toString() + " created", Toast.LENGTH_SHORT).show()
 
-            // TODO: create global method for this
-            // findNavController is not working for some reason, seems to be a problem with gradle version:
-            // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
-            // Alternative:
-            val myfragment = AllCardsFragment()
-            val fragmentTransaction = fragmentManager!!.beginTransaction()
-            fragmentTransaction.replace(R.id.frameLayout, myfragment)
-            fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-            fragmentTransaction.addToBackStack(null)
-            fragmentTransaction.commit()
+            fragmentManager?.replaceFragment(AllCardsFragment())
         }
 
     }

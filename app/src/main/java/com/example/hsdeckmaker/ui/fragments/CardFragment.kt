@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide
 import com.example.hsdeckmaker.R
 import com.example.hsdeckmaker.database.CardRepository
 import com.example.hsdeckmaker.model.CardItem
+import com.example.hsdeckmaker.replaceFragment
 import com.example.hsdeckmaker.ui.CardSingleViewModel
 import com.example.hsdeckmaker.ui.DeckViewModel
 import com.example.hsdeckmaker.ui.IOnBackPressed
@@ -100,17 +101,8 @@ class CardFragment : Fragment(), IOnBackPressed {
                     }
 
                     Toast.makeText(activity, getString(R.string.save_text), Toast.LENGTH_SHORT).show()
-
-                    // TODO: create global method for this
-                    // findNavController is not working for some reason, seems to be a problem with gradle version:
-                    // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
-                    // Alternative:
-                    val myfragment = AllCardsFragment()
-                    val fragmentTransaction = fragmentManager!!.beginTransaction()
-                    fragmentTransaction.replace(R.id.frameLayout, myfragment)
-                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-                    fragmentTransaction.addToBackStack(null)
-                    fragmentTransaction.commit()
+                    
+                    fragmentManager?.replaceFragment(AllCardsFragment())
                 }
             }
         })

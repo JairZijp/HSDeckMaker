@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hsdeckmaker.R
 import com.example.hsdeckmaker.model.CardAdapter
 import com.example.hsdeckmaker.model.CardItem
+import com.example.hsdeckmaker.replaceFragment
 import com.example.hsdeckmaker.ui.CardSingleViewModel
 import com.example.hsdeckmaker.ui.DeckViewModel
 import com.example.hsdeckmaker.ui.MainActivityViewModel
@@ -65,7 +66,6 @@ class DeckFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Log.d("CaRDSS", deckModel.cardsPage.toString())
         cards.addAll(deckModel.cardsPage)
         getActivity()?.setTitle(deckName);
     }
@@ -83,16 +83,7 @@ class DeckFragment : Fragment() {
         cardModel = ViewModelProviders.of(activity!!).get(CardSingleViewModel::class.java)
         cardModel!!.setCard(card)
 
-        // TODO: create global method for this
-        // findNavController is not working for some reason, seems to be a problem with gradle version:
-        // https://stackoverflow.com/questions/51890039/android-unresolved-reference-findnavcontroller-error
-        // Alternative:
-        val myfragment = CardFragment()
-        val fragmentTransaction = fragmentManager!!.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, myfragment)
-        fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commit()
+        fragmentManager?.replaceFragment(CardFragment())
     }
 
 }
